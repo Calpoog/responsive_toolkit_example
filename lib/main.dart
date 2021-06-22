@@ -42,6 +42,57 @@ class MyHomePage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
+                child: Text('Responsive layout', style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Text('ResponsiveLayout widget', style: Theme.of(context).textTheme.headline5),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Text(
+                    'Change widget based on breakpoint. Swap individual widgets all the way to entire page layouts based on screen size.'),
+              ),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: ResponsiveLayout(Breakpoints(
+                  xs: ElevatedButton(onPressed: () {}, child: Text('Elevated button on xs')),
+                  md: TextButton(onPressed: () {}, child: Text('Text button on md+')),
+                )),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Text('ResponsiveLayout.value utility', style: Theme.of(context).textTheme.headline5),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Text('Change any value based on breakpoint'),
+              ),
+              Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(bottom: 48.0),
+                child: ElevatedButton.icon(
+                  label: Text('Button icon changes'),
+                  onPressed: () {},
+                  icon: Icon(
+                    ResponsiveLayout.value(
+                      context,
+                      Breakpoints(
+                        xs: Icons.access_alarm_outlined,
+                        sm: Icons.add_circle_outline_outlined,
+                        md: Icons.accessible_forward_outlined,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Text('Responsive grid', style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text('Column layout reference', style: Theme.of(context).textTheme.headline5),
               ),
               GridLines(
