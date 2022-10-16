@@ -22,14 +22,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Widget container({Color? color, Widget? child, String? text, double? width, double? height}) => Container(
-          height: 50,
-          width: width,
-          decoration:
-              BoxDecoration(color: color ?? Colors.blueGrey[100], border: Border.all(color: Colors.blueGrey.shade600)),
-          child: child ?? (text == null ? null : Center(child: Text(text))),
-        );
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Flutter Responsive'),
@@ -40,207 +32,358 @@ class MyHomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text('Responsive layout', style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold)),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text('ResponsiveLayout widget', style: Theme.of(context).textTheme.headline5),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text(
-                    'Change widget based on breakpoint. Swap individual widgets all the way to entire page layouts based on screen size.'),
-              ),
-              Container(
-                alignment: Alignment.topLeft,
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: ResponsiveLayout(Breakpoints(
-                  xs: ElevatedButton(onPressed: () {}, child: Text('Elevated button on xs')),
-                  md: TextButton(onPressed: () {}, child: Text('Text button on md+')),
-                )),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text('ResponsiveLayout.value utility', style: Theme.of(context).textTheme.headline5),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text('Change any value based on breakpoint'),
-              ),
-              Container(
-                alignment: Alignment.topLeft,
-                padding: const EdgeInsets.only(bottom: 48.0),
-                child: ElevatedButton.icon(
-                  label: Text('Button icon changes'),
-                  onPressed: () {},
-                  icon: Icon(
-                    ResponsiveLayout.value(
-                      context,
-                      Breakpoints(
-                        xs: Icons.access_alarm_outlined,
-                        sm: Icons.add_circle_outline_outlined,
-                        md: Icons.accessible_forward_outlined,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text('Responsive grid', style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold)),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text('Column layout reference', style: Theme.of(context).textTheme.headline5),
-              ),
-              GridLines(
-                children: [
-                  ResponsiveRow(
-                    columns: List.generate(12, (i) => ResponsiveColumn.span(span: 1, child: container(text: 'Span 1'))),
-                  ),
-                  ...List.generate(
-                    6,
-                    (i) => ResponsiveRow(
-                      columns: [
-                        ResponsiveColumn.span(span: i + 1, child: container(text: 'Span ${i + 1}')),
-                        ResponsiveColumn.span(span: 11 - i, child: container(text: 'Span ${11 - i}'))
-                      ],
-                    ),
-                  ),
-                  ResponsiveRow(
-                    columns: [
-                      ResponsiveColumn.span(span: 3, offset: 1, child: container(text: 'Span 3, Offset 1')),
-                      ResponsiveColumn.span(span: 3, offset: 3, child: container(text: 'Span 3, Offset 3')),
-                    ],
-                  ),
-                  ResponsiveRow(
-                    columns: [
-                      ResponsiveColumn.span(span: 4, child: container(text: 'Span 4')),
-                      ResponsiveColumn.span(span: 4, child: container(text: 'Span 4')),
-                      ResponsiveColumn.span(span: 5, child: container(text: 'Span 5 Wraps')),
-                    ],
-                  ),
-                  ResponsiveRow(
-                    columns: [
-                      ResponsiveColumn.auto(
-                          child: container(child: Center(widthFactor: 1.3, child: Text('Auto column')))),
-                      ResponsiveColumn.fill(child: container(text: 'Fill column')),
-                    ],
-                  ),
-                  ResponsiveRow(
-                    columns: [
-                      ResponsiveColumn.fill(child: container(text: 'Fill column')),
-                      ResponsiveColumn.fill(child: container(text: 'Fill column')),
-                      ResponsiveColumn.fill(child: container(text: 'Fill column')),
-                    ],
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text('Using breakpoints', style: Theme.of(context).textTheme.headline5),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text('1 (xs), 2 (md), 3 (lg), 4 (xl) equal-width columns'),
-              ),
-              Builder(
-                builder: (context) {
-                  final span = ResponsiveLayout.value(context, Breakpoints(xs: 12, md: 6, lg: 4, xl: 3));
-                  return GridLines(
-                    children: [
-                      ResponsiveRow(
-                        columns: List.generate(
-                          4,
-                          (i) => ResponsiveColumn.span(
-                            span: span,
-                            child: container(text: 'Span $span'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text('Changing order (column 4 moves to front >md)'),
-              ),
-              Builder(
-                builder: (context) {
-                  final order = ResponsiveLayout.value(context, Breakpoints(xs: 2, md: 0));
-                  return GridLines(
-                    children: [
-                      ResponsiveRow(
-                        columns: [
-                          ...List.generate(
-                            3,
-                            (i) => ResponsiveColumn.span(
-                              span: 3,
-                              order: 1,
-                              child: container(text: 'Column ${i + 1}, Order 1'),
-                            ),
-                          ),
-                          ResponsiveColumn.span(
-                            span: 3,
-                            order: order,
-                            child: container(text: 'Column 4, Order $order', color: Colors.blue[200]),
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Text('Control multiple properties with breakpoints'),
-              ),
-              Builder(
-                builder: (context) {
-                  return GridLines(
-                    children: [
-                      ResponsiveRow(
-                        columns: [
-                          ResponsiveColumn(
-                            Breakpoints(
-                              xs: ResponsiveColumnConfig(
-                                span: 3,
-                                offset: 4,
-                              ),
-                              md: ResponsiveColumnConfig(
-                                span: 6,
-                                offset: 0,
-                                order: 2,
-                              ),
-                            ),
-                            child: container(
-                              color: Colors.blue[200],
-                              child: Center(
-                                child: ResponsiveLayout(
-                                  Breakpoints(
-                                    xs: Text('xs: Span 3, Offset 4'),
-                                    md: Text('md: Span 6, Offset 0, Order 2'),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          ResponsiveColumn.span(span: 2, order: 1, child: container(text: 'Span 2, Order 1')),
-                        ],
-                      ),
-                    ],
-                  );
-                },
-              ),
+              ...responsiveLayoutExample(context),
+              // ...responsiveGridExample(context),
+              ...responsiveRowExample(context),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+Widget container({Color? color, Widget? child, String? text, double? width, double height = 50}) => Container(
+      height: height,
+      width: width,
+      decoration:
+          BoxDecoration(color: color ?? Colors.blueGrey[100], border: Border.all(color: Colors.blueGrey.shade600)),
+      child: child ?? (text == null ? null : Center(child: Text(text))),
+    );
+
+List<Widget> responsiveGridExample(BuildContext context) {
+  return [
+    ResponsiveGrid(
+      columns: [
+        GridTrack.fixed(100),
+        GridTrack.auto(),
+        GridTrack.flex(),
+      ],
+      rows: [
+        GridTrack.fixed(80),
+      ],
+      children: [
+        ResponsiveGridItem(
+          child: container(text: 'Variable width, spans 2 columns'),
+          columnSpan: 2,
+        ),
+        ResponsiveGridItem(
+          child: container(text: 'Flex width, spans 3 rows'),
+          rowSpan: 3,
+          crossAxisAlignment: ResponsiveCrossAlignment.stretch,
+        ),
+        ResponsiveGridItem(child: container(text: 'Fixed width')),
+        ResponsiveGridItem(child: container(text: 'Auto width')),
+        ResponsiveGridItem(child: container(text: 'Fixed width')),
+        ResponsiveGridItem(child: container(text: 'Auto width')),
+        ResponsiveGridItem(
+          child: container(text: 'Spans 3 columns'),
+          columnSpan: 3,
+        ),
+      ],
+    ),
+    // ResponsiveGrid(
+    //   columns: [GridTrack.auto(), GridTrack.fixed(100), GridTrack.flex()],
+    //   rows: [GridTrack.flex(), GridTrack.flex(), GridTrack.flex(2), GridTrack.flex()],
+    //   children: List.generate(
+    //     11,
+    //     (index) => ResponsiveGridItem(
+    //       child: container(
+    //         text: '$index',
+    //         width: index * 10 + 50,
+    //         height: index * 10 + 50,
+    //       ),
+    //     ),
+    //   ),
+    // ),
+    // ResponsiveGrid(
+    //   spacing: 10,
+    //   crossAxisAlignment: ResponsiveCrossAlignment.stretch,
+    //   columns: [
+    //     GridTrack.auto(),
+    //     GridTrack.fixed(50),
+    //     GridTrack.flex(),
+    //     GridTrack.flex(),
+    //     // GridTrack.flex(),
+    //   ],
+    //   rows: [
+    //     GridTrack.auto(),
+    //     GridTrack.fixed(70),
+    //     GridTrack.auto(),
+    //     GridTrack.auto(),
+    //     GridTrack.flex(3),
+    //     GridTrack.flex(),
+    //     // GridTrack.fixed(75),
+    //     // GridTrack.fixed(100),
+    //     // GridTrack.fixed(100),
+    //     // GridTrack.fixed(100),
+    //   ],
+    //   children: [
+    //     ResponsiveGridItem(
+    //       child: container(text: 'grid item 1', width: 250, height: 100),
+    //       columnStart: 0,
+    //       columnSpan: 2,
+    //       rowStart: 0,
+    //       // rowSpan: 2,
+    //       // crossAxisAlignment: ResponsiveCrossAlignment.stretch,
+    //     ),
+    //     ResponsiveGridItem(
+    //       child: container(text: 'grid item 1.5', width: 300),
+    //       columnStart: 0,
+    //       columnSpan: 3,
+    //       rowStart: 3,
+    //     ),
+    //     ResponsiveGridItem(
+    //       child: container(text: 'grid item big', width: 300, height: 200),
+    //       columnStart: 0,
+    //       columnSpan: 2,
+    //       rowStart: 1,
+    //       rowSpan: 2,
+    //     ),
+    //     ResponsiveGridItem(child: container(text: 'grid item 2'), rowStart: 1),
+    //     ResponsiveGridItem(
+    //       child: container(text: 'grid item 3'),
+    //       rowStart: 2,
+    //       // crossAxisAlignment: ResponsiveCrossAlignment.end,
+    //     ),
+    //     ResponsiveGridItem(
+    //       child: container(text: 'grid item 3.5'),
+    //       columnStart: 0,
+    //       columnSpan: 2,
+    //       rowStart: 4,
+    //       // crossAxisAlignment: ResponsiveCrossAlignment.end,
+    //     ),
+    //     ResponsiveGridItem(
+    //       child: container(text: 'grid item 4', height: 250),
+    //       columnStart: 2,
+    //       rowStart: 0,
+    //       rowSpan: 3,
+    //     ),
+    //     ResponsiveGridItem(
+    //       child: container(text: 'grid item 5', height: 200),
+    //       columnStart: 3,
+    //       rowStart: 0,
+    //       // rowSpan: 3,
+    //     ),
+    //     ResponsiveGridItem(
+    //       child: container(text: 'Flex 1', height: 50),
+    //       columnStart: 0,
+    //       rowStart: 4,
+    //     ),
+    //     ResponsiveGridItem(
+    //       child: container(text: 'Flex 1', height: 100),
+    //       columnStart: 0,
+    //       rowStart: 5,
+    //     ),
+    //     // ...List.generate(
+    //     //     11, (index) => container(text: 'Cell $index', width: index * 10 + 50, height: index * 10 + 50)),
+    //   ],
+    // )
+  ];
+}
+
+List<Widget> responsiveLayoutExample(BuildContext context) {
+  return [
+    Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text('Responsive layout', style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold)),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text('ResponsiveLayout widget', style: Theme.of(context).textTheme.headline5),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text(
+          'Change widget based on breakpoint. Swap individual widgets all the way to entire page layouts based on screen size.'),
+    ),
+    Container(
+      alignment: Alignment.topLeft,
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: ResponsiveLayout(Breakpoints(
+        xs: ElevatedButton(onPressed: () {}, child: Text('Elevated button on xs')),
+        md: TextButton(onPressed: () {}, child: Text('Text button on md+')),
+      )),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text('ResponsiveLayout.value utility', style: Theme.of(context).textTheme.headline5),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text('Change any value based on breakpoint'),
+    ),
+    Container(
+      alignment: Alignment.topLeft,
+      padding: const EdgeInsets.only(bottom: 48.0),
+      child: ElevatedButton.icon(
+        label: Text('Button icon changes'),
+        onPressed: () {},
+        icon: Icon(
+          ResponsiveLayout.value(
+            context,
+            Breakpoints(
+              xs: Icons.access_alarm_outlined,
+              sm: Icons.add_circle_outline_outlined,
+              md: Icons.accessible_forward_outlined,
+            ),
+          ),
+        ),
+      ),
+    ),
+  ];
+}
+
+List<Widget> responsiveRowExample(BuildContext context) {
+  return [
+    Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text('Responsive grid', style: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold)),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text('Column layout reference', style: Theme.of(context).textTheme.headline5),
+    ),
+    GridLines(
+      children: [
+        ResponsiveRow(
+          columns: List.generate(12, (i) => ResponsiveColumn.span(span: 1, child: container(text: 'Span 1'))),
+        ),
+        ...List.generate(
+          6,
+          (i) => ResponsiveRow(
+            columns: [
+              ResponsiveColumn.span(span: i + 1, child: container(text: 'Span ${i + 1}')),
+              ResponsiveColumn.span(span: 11 - i, child: container(text: 'Span ${11 - i}'))
+            ],
+          ),
+        ),
+        ResponsiveRow(
+          columns: [
+            ResponsiveColumn.span(span: 3, offset: 1, child: container(text: 'Span 3, Offset 1')),
+            ResponsiveColumn.span(span: 3, offset: 3, child: container(text: 'Span 3, Offset 3')),
+          ],
+        ),
+        ResponsiveRow(
+          columns: [
+            ResponsiveColumn.span(span: 4, child: container(text: 'Span 4')),
+            ResponsiveColumn.span(span: 4, child: container(text: 'Span 4')),
+            ResponsiveColumn.span(span: 5, child: container(text: 'Span 5 Wraps')),
+          ],
+        ),
+        ResponsiveRow(
+          columns: [
+            ResponsiveColumn.auto(child: container(child: Center(widthFactor: 1.3, child: Text('Auto column')))),
+            ResponsiveColumn.fill(child: container(text: 'Fill column')),
+          ],
+        ),
+        ResponsiveRow(
+          columns: [
+            ResponsiveColumn.fill(child: container(text: 'Fill column')),
+            ResponsiveColumn.fill(child: container(text: 'Fill column')),
+            ResponsiveColumn.fill(child: container(text: 'Fill column')),
+          ],
+        ),
+      ],
+    ),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text('Using breakpoints', style: Theme.of(context).textTheme.headline5),
+    ),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text('1 (xs), 2 (md), 3 (lg), 4 (xl) equal-width columns'),
+    ),
+    Builder(
+      builder: (context) {
+        final span = ResponsiveLayout.value(context, Breakpoints(xs: 12, md: 6, lg: 4, xl: 3));
+        return GridLines(
+          children: [
+            ResponsiveRow(
+              columns: List.generate(
+                4,
+                (i) => ResponsiveColumn.span(
+                  span: span,
+                  child: container(text: 'Span $span'),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    ),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text('Changing order (column 4 moves to front >md)'),
+    ),
+    Builder(
+      builder: (context) {
+        final order = ResponsiveLayout.value(context, Breakpoints(xs: 2, md: 0));
+        return GridLines(
+          children: [
+            ResponsiveRow(
+              columns: [
+                ...List.generate(
+                  3,
+                  (i) => ResponsiveColumn.span(
+                    span: 3,
+                    order: 1,
+                    child: container(text: 'Column ${i + 1}, Order 1'),
+                  ),
+                ),
+                ResponsiveColumn.span(
+                  span: 3,
+                  order: order,
+                  child: container(text: 'Column 4, Order $order', color: Colors.blue[200]),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    ),
+    Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Text('Control multiple properties with breakpoints'),
+    ),
+    Builder(
+      builder: (context) {
+        return GridLines(
+          children: [
+            ResponsiveRow(
+              columns: [
+                ResponsiveColumn(
+                  Breakpoints(
+                    xs: ResponsiveColumnConfig(
+                      span: 3,
+                      offset: 4,
+                    ),
+                    md: ResponsiveColumnConfig(
+                      span: 6,
+                      offset: 0,
+                      order: 2,
+                    ),
+                  ),
+                  child: container(
+                    color: Colors.blue[200],
+                    child: Center(
+                      child: ResponsiveLayout(
+                        Breakpoints(
+                          xs: Text('xs: Span 3, Offset 4'),
+                          md: Text('md: Span 6, Offset 0, Order 2'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                ResponsiveColumn.span(span: 2, order: 1, child: container(text: 'Span 2, Order 1')),
+              ],
+            ),
+          ],
+        );
+      },
+    ),
+  ];
 }
 
 class GridLines extends StatelessWidget {
