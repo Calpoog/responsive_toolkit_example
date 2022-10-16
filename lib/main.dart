@@ -49,6 +49,22 @@ class MyHomePage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
+                child: Text('FluidText',
+                    style:
+                        TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold)),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 48.0),
+                child: FluidText(
+                    'This text scales from 16 to 36 font size between 375-1024 pixel screen width.',
+                    minFontSize: 16,
+                    maxFontSize: 36,
+                    minWidth: 375,
+                    maxWidth: 1024,
+                    style: Theme.of(context).textTheme.headline5),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text('Responsive layout',
                     style:
                         TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold)),
