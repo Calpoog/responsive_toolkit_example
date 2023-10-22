@@ -61,7 +61,7 @@ class MyHomePage extends StatelessWidget {
                     maxFontSize: 36,
                     minWidth: 375,
                     maxWidth: 1024,
-                    style: Theme.of(context).textTheme.headline5),
+                    style: Theme.of(context).textTheme.headlineSmall),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 48.0),
@@ -98,7 +98,7 @@ class MyHomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text('ResponsiveLayout widget',
-                    style: Theme.of(context).textTheme.headline5),
+                    style: Theme.of(context).textTheme.headlineSmall),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
@@ -118,7 +118,7 @@ class MyHomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text('ResponsiveLayout.value utility',
-                    style: Theme.of(context).textTheme.headline5),
+                    style: Theme.of(context).textTheme.headlineSmall),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
@@ -151,7 +151,7 @@ class MyHomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text('Column layout reference',
-                    style: Theme.of(context).textTheme.headline5),
+                    style: Theme.of(context).textTheme.headlineSmall),
               ),
               GridLines(
                 children: [
@@ -222,7 +222,7 @@ class MyHomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Text('Using breakpoints',
-                    style: Theme.of(context).textTheme.headline5),
+                    style: Theme.of(context).textTheme.headlineSmall),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
